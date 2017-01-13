@@ -195,25 +195,20 @@ function calculPrice(cars,rentals){
 		var timeRental = dateDiff(beginRental, endRental);
 
 		for( var j = 0; j < cars.length ; j++ ){
-			if ( rentals[i].carId == cars[j].carId ) {
-        console.log(timeRental);
+			if ( rentals[i].carId == cars[j].id ) {
 				var rentalPrice = timeRental * cars[j].pricePerDay + rentals[i].distance * cars[j].pricePerKm;
 				console.log(rentalPrice);
-        //rent.price = rentalPrice;
+        rentals[i].price = rentalPrice;
 			}
 		}
 	}
 }
-/*function display(cars){
-  for(var c in cars){
-    console.log(c.carId);
-  }
-}*/
+
 console.log(rentals[0].pickupDate);
 console.log(cars);
 console.log(rentals);
 console.log(actors);
 console.log(rentalModifications);
 console.log(calculPrice(cars,rentals));
-//console.log(display(cars));
+
 console.log(rentals);
