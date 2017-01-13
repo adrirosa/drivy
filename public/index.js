@@ -165,7 +165,55 @@ var rentalModifications = [{
   'pickupDate': '2015-12-05'
 }];
 
+function dateDiff(date1, date2){
+    var diff = {}                           // Initialisation of a temp var
+    var tmp = date2 - date1;
+    var dayR = 0;
+ 
+    tmp = Math.floor(tmp/1000);             // Calculate secondes
+    diff.sec = tmp % 60;                    
+ 
+    tmp = Math.floor((tmp-diff.sec)/60);    // Calculate minutes
+    diff.min = tmp % 60;                    
+
+    tmp = Math.floor((tmp-diff.min)/60);    // Calculate hours
+    diff.hour = tmp % 24;                   
+     
+    tmp = Math.floor((tmp-diff.hour)/24);   // Calculate days
+    diff.day = tmp;
+
+    dayR = diff.day;
+
+    return dayR;
+}
+
+function calculPrice(cars,rentals){
+	//rental price = time + distance
+    for ( var i =0; i< rentals.length ; i++){
+		var beginRental = new Date(rentals[i].pickupDate);
+		var endRental = new Date(rentals[i].returnDate);
+		var timeRental = dateDiff(beginRental, endRental);
+
+		for( var j = 0; j < cars.length ; j++ ){
+			if ( rentals[i].carId == cars[j].carId ) {
+        console.log(timeRental);
+				var rentalPrice = timeRental * cars[j].pricePerDay + rentals[i].distance * cars[j].pricePerKm;
+				console.log(rentalPrice);
+        //rent.price = rentalPrice;
+			}
+		}
+	}
+}
+/*function display(cars){
+  for(var c in cars){
+    console.log(c.carId);
+  }
+}*/
+console.log(rentals[0].pickupDate);
 console.log(cars);
 console.log(rentals);
 console.log(actors);
 console.log(rentalModifications);
+console.log(calculPrice(cars,rentals));
+//console.log(display(cars));
+console.log(rentals);
