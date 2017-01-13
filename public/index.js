@@ -165,6 +165,9 @@ var rentalModifications = [{
   'pickupDate': '2015-12-05'
 }];
 
+//----------------------------------------------------------------
+
+//exercice 1
 function dateDiff(date1, date2){
     var diff = {}                           // Initialisation of a temp var
     var tmp = date2 - date1;
@@ -196,7 +199,7 @@ function calculPrice(cars,rentals){
 
 		for( var j = 0; j < cars.length ; j++ ){
 			if ( rentals[i].carId == cars[j].id ) {
-				var rentalPrice = timeRental * cars[j].pricePerDay + rentals[i].distance * cars[j].pricePerKm;
+				var rentalPrice = timeRental * (reducPrice(timeRental) * cars[j].pricePerDay) + rentals[i].distance * cars[j].pricePerKm;
 				console.log(rentalPrice);
         rentals[i].price = rentalPrice;
 			}
@@ -204,7 +207,17 @@ function calculPrice(cars,rentals){
 	}
 }
 
-console.log(rentals[0].pickupDate);
+//exercice 2
+function reducPrice(datediff){
+  var percent
+  
+  if ( datediff > 1 && datediff <= 4) { percent = 0.9;}
+  else if ( datediff > 4 && datediff < 10) { percent = 0.7; }
+  else if ( datediff > 10) { percent = 0.5; }
+  else { percent = 1; }
+  return percent;
+}
+
 console.log(cars);
 console.log(rentals);
 console.log(actors);
