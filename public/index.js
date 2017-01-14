@@ -193,15 +193,23 @@ function dateDiff(date1, date2){
 function calculPrice(cars,rentals){
 	//rental price = time + distance
     for ( var i =0; i< rentals.length ; i++){
+      //rental duration
 		var beginRental = new Date(rentals[i].pickupDate);
 		var endRental = new Date(rentals[i].returnDate);
 		var timeRental = dateDiff(beginRental, endRental);
 
+    var rentalPrice = 0;
+
 		for( var j = 0; j < cars.length ; j++ ){
 			if ( rentals[i].carId == cars[j].id ) {
-				var rentalPrice = timeRental * (reducPrice(timeRental) * cars[j].pricePerDay) + rentals[i].distance * cars[j].pricePerKm;
-				console.log(rentalPrice);
+        //case where the rent last 1 day
+        if (timeRental == 0) { 
+          rentalPrice = cars[j].pricePerDay + rentals[i].distance * cars[j].pricePerKm; 
+        } else {
+          rentalPrice = timeRental * (reducPrice(timeRental) * cars[j].pricePerDay) + rentals[i].distance * cars[j].pricePerKm; 
+        }
         rentals[i].price = rentalPrice;
+        commissionSplit(i, timeRental);
 			}
 		}
 	}
@@ -216,6 +224,19 @@ function reducPrice(datediff){
   else if ( datediff > 10) { percent = 0.5; }
   else { percent = 1; }
   return percent;
+}
+
+//exercice 3 
+function commissionSplit( i, timeRental){
+  var commission = rentals[i].price*0.3;
+  var commissionSplit = rentals[i].commission;
+
+  commissionSplit.insurance = commission/2;
+  if (timeRental == 0) { commissionSplit.assistance =1;}
+  else {commissionSplit.assistance = timeRental;}
+  commissionSplit.drivy = commission - (commissionSplit.insurance+commissionSplit.assistance);
+
+return commissionSplit;
 }
 
 console.log(cars);
