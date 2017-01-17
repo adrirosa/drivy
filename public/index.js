@@ -221,7 +221,7 @@ function reducPrice(datediff){
   
   if ( datediff > 1 && datediff <= 4) { percent = 0.9;}
   else if ( datediff > 4 && datediff < 10) { percent = 0.7; }
-  else if ( datediff > 10) { percent = 0.5; }
+  else if ( datediff >= 10) { percent = 0.5; }
   else { percent = 1; }
   return percent;
 }
@@ -232,17 +232,34 @@ function commissionSplit( i, timeRental){
   var commissionSplit = rentals[i].commission;
 
   commissionSplit.insurance = commission/2;
+  //case where the rent last 1 day
   if (timeRental == 0) { commissionSplit.assistance =1;}
   else {commissionSplit.assistance = timeRental;}
+  //drivy take the rest
+  //but if there is a deductible option
+  if (rentals[i].options.deductibleReduction == true) {deductibleOption(i);}
+  
+  //otherwise
   commissionSplit.drivy = commission - (commissionSplit.insurance+commissionSplit.assistance);
 
 return commissionSplit;
 }
 
-console.log(cars);
+//exercice 4
+function deductibleOption(i){
+  var chargeToDrivy = 4;
+  var addToCom = rentals[i].commission;
+
+  addToCom.drivy += chargeToDrivy;
+  rentals[i].price +=chargeToDrivy; //add charge to drivy in the rental price
+
+  return addToCom;
+}
+
+//console.log(cars);
 console.log(rentals);
-console.log(actors);
-console.log(rentalModifications);
+//console.log(actors);
+//console.log(rentalModifications);
 console.log(calculPrice(cars,rentals));
 
 console.log(rentals);
