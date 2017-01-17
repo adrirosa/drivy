@@ -213,6 +213,7 @@ function calculPrice(cars,rentals){
 			}
 		}
 	}
+  return rentals; 
 }
 
 //exercice 2
@@ -256,10 +257,32 @@ function deductibleOption(i){
   return addToCom;
 }
 
+//exercice 5 
+function distibutionActors(actors, rentals,cars){
+
+  for ( var i = 0; i < actors.length; i++){
+    for (var j=0; j < rentals.length ; j++){
+      if ( actors[i].rentalId == rentals[j].id) {
+        var actor = actors[i].payment;
+        
+        for( var k =0 ; k < actors[i].payment.length; k++){
+          if(actor[k].who == "driver") {actor[k].amount = rentals[i].price;}
+          else if(actor[k].who == "owner") {actor[k].amount = rentals[i].price - 
+            (rentals[i].commission.insurance+rentals[i].commission.drivy+rentals[i].commission.assistance);}
+          else if(actor[k].who == "insurance") {actor[k].amount = rentals[i].commission.insurance;}
+          else if(actor[k].who == "assistance") {actor[k].amount = rentals[i].commission.assistance;}
+          else {actor[k].amount = rentals[i].commission.drivy;}
+        }
+      }
+    }
+  }
+  return actors;
+}
+
 //console.log(cars);
 console.log(rentals);
-//console.log(actors);
+console.log(actors);
 //console.log(rentalModifications);
 console.log(calculPrice(cars,rentals));
-
+console.log(distibutionActors(actors, rentals, cars));
 console.log(rentals);
